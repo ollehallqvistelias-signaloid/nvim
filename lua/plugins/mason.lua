@@ -1,27 +1,17 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
--- Customize Mason
-
 ---@type LazySpec
 return {
-  -- use mason-tool-installer for automatically installing Mason packages
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    -- overrides `require("mason-tool-installer").setup(...)`
     opts = {
-      -- Make sure to use the names found in `:Mason`
       ensure_installed = {
-        -- install language servers
-        "lua-language-server",
-
-        -- install formatters
-        "stylua",
-
-        -- install debuggers
-        "debugpy",
-
-        -- install any other package
-        "tree-sitter-cli",
+        "pyright",
+        "clangd",
+        -- nvim-treesitter's `main` branch builds parsers with the tree-sitter
+        -- CLI. Releases from v0.26.0 onwards are linked against glibc 2.39,
+        -- which is newer than this machine's glibc 2.35, so they fail to run.
+        -- v0.25.10 is the last release that works here and it still generates
+        -- ABI 15 parsers correctly.
+        { "tree-sitter-cli", version = "v0.25.10" },
       },
     },
   },
